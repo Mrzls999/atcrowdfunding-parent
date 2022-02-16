@@ -3,9 +3,9 @@ package com.zls.atcrowdfunding.bean;
 public class TAdmin {
     private Long id;
 
-    private String loginacct;
+    private String loginacct;//登录账号
 
-    private String userpswd;
+    private String userpswd;//登录密码
 
     private String username;
 
@@ -59,5 +59,17 @@ public class TAdmin {
 
     public void setCreatetime(String createtime) {
         this.createtime = createtime == null ? null : createtime.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "TAdmin{" +
+                "id=" + id +
+                ", loginacct='" + loginacct + '\'' +
+                ", userpswd='" + userpswd + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", createtime='" + createtime + '\'' +
+                '}';
     }
 }
