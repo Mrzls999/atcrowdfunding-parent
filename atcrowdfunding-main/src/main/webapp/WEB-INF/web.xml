@@ -18,6 +18,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>com.zls.listener.ContextPathListener</listener-class>
+    </listener>
 
 
     <!-- 字符编码过滤器 -->

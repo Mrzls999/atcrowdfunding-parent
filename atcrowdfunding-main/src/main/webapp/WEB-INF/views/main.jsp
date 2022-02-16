@@ -15,9 +15,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="static/css/font-awesome.min.css">
-  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="${applicationScope.appPath}/static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="${applicationScope.appPath}/static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="${applicationScope.appPath}/static/css/main.css">
   <style>
     .tree li {
       list-style-type: none;
@@ -165,9 +165,9 @@
     </div>
   </div>
 </div>
-<script src="static/jquery/jquery-2.1.1.min.js"></script>
-<script src="static/bootstrap/js/bootstrap.min.js"></script>
-<script src="static/script/docs.min.js"></script>
+<script src="${applicationScope.appPath}/static/jquery/jquery-2.1.1.min.js"></script>
+<script src="${applicationScope.appPath}/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="${applicationScope.appPath}/static/script/docs.min.js"></script>
 <script type="text/javascript">
   $(function () {
     $(".list-group-item").click(function(){

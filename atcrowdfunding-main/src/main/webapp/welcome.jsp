@@ -14,9 +14,9 @@
     <meta name="description" content="">
     <meta name="keys" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="${applicationScope.appPath}/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${applicationScope.appPath}/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${applicationScope.appPath}/static/css/login.css">
     <style>
 
     </style>
@@ -25,7 +25,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <div><a class="navbar-brand" href="index.html" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
+            <div><a class="navbar-brand" href="${applicationScope.appPath}/welcome.jsp" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
         </div>
     </div>
 </nav>
@@ -63,8 +63,8 @@
         <a class="btn btn-lg btn-success btn-block" onclick="dologin()" > 登录</a>
     </form>
 </div>
-<script src="static/jquery/jquery-2.1.1.min.js"></script>
-<script src="static/bootstrap/js/bootstrap.min.js"></script>
+<script src="${applicationScope.appPath}/static/jquery/jquery-2.1.1.min.js"></script>
+<script src="${applicationScope.appPath}/static/bootstrap/js/bootstrap.min.js"></script>
 <script>
     function dologin() {
        $("#loginForm").submit();
