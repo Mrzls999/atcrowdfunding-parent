@@ -20,6 +20,7 @@
     <style>
 
     </style>
+    <title>登录页面</title>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -34,12 +35,15 @@
 
     <form id="loginForm" action="${pageContext.request.contextPath}/login" method="post" class="form-signin" role="form">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
+        <span style="color:red">${sessionScope.err}</span>
         <div class="form-group has-success has-feedback">
-            <input name="loginacct" type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录账号" autofocus>
+            <label for="inputSuccess1"></label>
+            <input name="loginacct" type="text" class="form-control" id="inputSuccess1" placeholder="请输入登录账号" autofocus style="margin-top:10px;">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
-            <input name="userpswd" type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录密码" style="margin-top:10px;">
+            <label for="inputSuccess2"></label>
+            <input name="userpswd" type="text" class="form-control" id="inputSuccess2" placeholder="请输入登录密码" style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
 <%--        <div class="form-group has-success has-feedback">--%>

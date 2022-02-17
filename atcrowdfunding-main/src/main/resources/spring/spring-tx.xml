@@ -16,15 +16,15 @@
 
 	<!-- 阿里的数据库连接池Druid：获取数据库的操作 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-		<property name="username" value="${datasource.username}"></property>
-		<property name="password" value="${datasource.password}"></property>
-		<property name="url" value="${datasource.url}"></property>
-		<property name="driverClassName" value="${datasource.driver}"></property>
+		<property name="username" value="${datasource.username}"/>
+		<property name="password" value="${datasource.password}"/>
+		<property name="url" value="${datasource.url}"/>
+		<property name="driverClassName" value="${datasource.driver}"/>
 	</bean>
 
 	<!-- 事务管理器：控制着数据源 -->
 	<bean id="tm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"></property>
+		<property name="dataSource" ref="dataSource"/>
 	</bean>
 
 	<!-- 配置版的事务切面 -->

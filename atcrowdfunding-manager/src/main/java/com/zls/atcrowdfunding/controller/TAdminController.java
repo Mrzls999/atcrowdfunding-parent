@@ -1,8 +1,13 @@
 package com.zls.atcrowdfunding.controller;
 
 import com.zls.atcrowdfunding.bean.TAdmin;
+import com.zls.atcrowdfunding.service.TAdminService;
+import com.zls.atcrowdfunding.utils.MD5Util;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author zls
@@ -12,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TAdminController {
 
+    @Autowired
+    public TAdminService tAdminService;
+
+    //解决登录表单的重复提交问题
     @RequestMapping("/main")
     public String main(){
-
         return "main";
     }
 
@@ -24,8 +32,14 @@ public class TAdminController {
      * @return
      */
     @RequestMapping("/login")
-    public String login(TAdmin tAdmin){
-        System.out.println(tAdmin);
+    public String login(TAdmin tAdmin, HttpSession session){
+        try {
+            TAdmin admin = tAdminService.getTAdmin(tAdmin);
+            session.setAttribute("admin",admin);
+        } catch (Exception e) {
+            session.setAttribute("err",e.getMessage());//用户名或密码错误
+            return "redirect:/welcome.jsp";
+        }
         return "redirect:/main";
     }
 

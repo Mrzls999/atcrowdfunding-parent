@@ -31,6 +31,7 @@
       height : auto;
     }
   </style>
+  <title>主页面</title>
 </head>
 
 <body>
@@ -71,13 +72,13 @@
 <script type="text/javascript">
   $(function () {
     $(".list-group-item").click(function(){
-      if ( $(this).find("ul") ) {
-        $(this).toggleClass("tree-closed");
-        if ( $(this).hasClass("tree-closed") ) {
-          $("ul", this).hide("fast");
-        } else {
-          $("ul", this).show("fast");
-        }
+        if ( $(this).find("ul") ) {
+            $(this).toggleClass("tree-closed");
+            if ( $(this).hasClass("tree-closed") ) {
+                $("ul", this).hide("fast");
+            } else {
+                $("ul", this).show("fast");
+            }
       }
     });
   });
