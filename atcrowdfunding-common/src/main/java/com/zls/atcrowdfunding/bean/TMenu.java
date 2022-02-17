@@ -1,5 +1,8 @@
 package com.zls.atcrowdfunding.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TMenu {
     private Long id;
 
@@ -10,6 +13,8 @@ public class TMenu {
     private String icon;
 
     private String url;
+
+    private List<TMenu> childMenus = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -49,5 +54,19 @@ public class TMenu {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
+    }
+
+    public List<TMenu> getChildMenus(){return childMenus;}
+
+    @Override
+    public String toString() {
+        return "TMenu{" +
+                "id=" + id +
+                ", pid=" + pid +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                ", url='" + url + '\'' +
+                ", childMenus=" + childMenus +
+                '}';
     }
 }
