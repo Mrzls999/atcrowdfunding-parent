@@ -1,12 +1,16 @@
 package com.zls.atcrowdfunding.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zls.atcrowdfunding.bean.TAdmin;
 import com.zls.atcrowdfunding.bean.TMenu;
 import com.zls.atcrowdfunding.service.TAdminService;
 import com.zls.atcrowdfunding.service.TMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -49,6 +53,11 @@ public class TAdminController {
         return "redirect:/actrowfunding/main";
     }
 
+    /**
+     * 获取side侧边栏数据
+     * @param session
+     * @return
+     */
     @RequestMapping("/actrowfunding/main")
     public String side(HttpSession session){
         List<TMenu> tMenus = tMenuService.listMenu();
@@ -70,6 +79,24 @@ public class TAdminController {
         }
         session.setAttribute("pMenus",pMenus);//将左侧页面节点添加到session域中
         return "redirect:/main";
+    }
+
+    /**
+     * pageNum 当前的页码
+     * pageSize 每页显示的行数
+     * keyWord 查询条件
+     * @return
+     */
+    @RequestMapping("/admin/index")
+    public String index(@RequestParam(value = "pageNum",required = false,defaultValue = "1") Integer pageNum,
+                        @RequestParam(value = "pageSize",required = false,defaultValue = "2") Integer pageSize,
+                        @RequestParam(value = "keyWord",required = false,defaultValue = "") String keyWord,
+                        Model model){
+        PageHelper.startPage(pageNum,5);//开启分页 limit ?,?[pageSize-->每页显示多少条数据]
+        List<TAdmin> tAdmins = tAdminService.listAdminByPage(keyWord);
+        PageInfo<TAdmin> pageInfo = new PageInfo<>(tAdmins,5);//有多少个按钮页面[默认是8个]
+        model.addAttribute("pageInfo", pageInfo);
+        return "admin/index";
     }
 
 }
