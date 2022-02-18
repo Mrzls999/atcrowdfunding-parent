@@ -82,6 +82,7 @@ public class TAdminController {
     }
 
     /**
+     * 分页查询
      * pageNum 当前的页码
      * pageSize 每页显示的行数
      * keyWord 查询条件
@@ -91,12 +92,28 @@ public class TAdminController {
     public String index(@RequestParam(value = "pageNum",required = false,defaultValue = "1") Integer pageNum,
                         @RequestParam(value = "pageSize",required = false,defaultValue = "3") Integer pageSize,
                         @RequestParam(value = "keyWord",required = false,defaultValue = "") String keyWord,
-                        Model model){
-        PageHelper.startPage(pageNum,pageSize);//开启分页 limit ?,?[pageSize-->每页显示多少条数据]
-        List<TAdmin> tAdmins = tAdminService.listAdminByPage(keyWord);
-        PageInfo<TAdmin> pageInfo = new PageInfo<>(tAdmins,5);//有多少个按钮页面[默认是8个]
-        model.addAttribute("pageInfo", pageInfo);
-        return "admin/index";
+                        Model model,
+                        HttpSession session){
+        if (session == null||session.getAttribute("admin")==null) {//如果用户未登录则跳转到欢迎页面
+            return "redirect:/welcome.jsp";
+        }else {
+            PageHelper.startPage(pageNum,pageSize);//开启分页 limit ?,?[pageSize-->每页显示多少条数据]
+            List<TAdmin> tAdmins = tAdminService.listAdminByPage(keyWord);
+            PageInfo<TAdmin> pageInfo = new PageInfo<>(tAdmins,5);//有多少个按钮页面[默认是8个]
+            model.addAttribute("pageInfo", pageInfo);
+            return "admin/index";
+        }
+
     }
 
+    /**
+     * 系统退出
+     */
+    @RequestMapping("/admin/logOut")
+    public String logOut(HttpSession session){
+        if(session!=null){//如果session不为空，则令其手动失效
+            session.invalidate();
+        }
+        return "redirect:/welcome.jsp";
+    }
 }
