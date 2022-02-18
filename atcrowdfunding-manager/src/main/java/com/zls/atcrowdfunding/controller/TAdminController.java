@@ -126,10 +126,9 @@ public class TAdminController {
     @RequestMapping("/admin/saveAdmin")
     public String saveAdmin(TAdmin admin){
         tAdminService.saveAdmin(admin);
-        return "redirect:/admin/index?pageNum=1";
+        return "redirect:/admin/index?pageNum="+Integer.MAX_VALUE;
         ////重定向到index，这样会默认查询一遍
-        // 由于oracle中新插入的数据默认在最上方，所以显示查询页为1，
-        //如果向重定向到最后一页，那么可以将1改为 Integer.MAX_VALUE,详见spring-mybatis分页合理化
+        //新插入的数据在最后一页，那么设置pageNum=Integer.MAX_VALUE,详见spring-mybatis分页合理化
     }
 
     /**
