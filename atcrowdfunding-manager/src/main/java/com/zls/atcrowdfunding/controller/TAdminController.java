@@ -89,10 +89,10 @@ public class TAdminController {
      */
     @RequestMapping("/admin/index")
     public String index(@RequestParam(value = "pageNum",required = false,defaultValue = "1") Integer pageNum,
-                        @RequestParam(value = "pageSize",required = false,defaultValue = "2") Integer pageSize,
+                        @RequestParam(value = "pageSize",required = false,defaultValue = "3") Integer pageSize,
                         @RequestParam(value = "keyWord",required = false,defaultValue = "") String keyWord,
                         Model model){
-        PageHelper.startPage(pageNum,5);//开启分页 limit ?,?[pageSize-->每页显示多少条数据]
+        PageHelper.startPage(pageNum,pageSize);//开启分页 limit ?,?[pageSize-->每页显示多少条数据]
         List<TAdmin> tAdmins = tAdminService.listAdminByPage(keyWord);
         PageInfo<TAdmin> pageInfo = new PageInfo<>(tAdmins,5);//有多少个按钮页面[默认是8个]
         model.addAttribute("pageInfo", pageInfo);

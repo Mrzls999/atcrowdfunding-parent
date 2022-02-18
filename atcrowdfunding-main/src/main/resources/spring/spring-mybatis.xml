@@ -14,7 +14,7 @@
 		<property name="plugins">
 			<bean class="com.github.pagehelper.PageInterceptor">
 				<property name="properties">
-					<!--分页合理化 -->
+					<!--分页合理化 就是比方说只有10页，那我请求第23页，那么就展示第10页-->
 					<value>reasonable=true</value>
 				</property>
 			</bean>

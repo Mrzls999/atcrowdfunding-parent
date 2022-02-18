@@ -56,11 +56,12 @@ public class TAdminService {
             criteria1.andLoginacctLike("%"+keyWord+"%");
 
             TAdminExample.Criteria criteria2 = example.createCriteria();
-            criteria1.andEmailLike("%"+keyWord+"%");
+            criteria2.andEmailLike("%"+keyWord+"%");
 
             TAdminExample.Criteria criteria3 = example.createCriteria();
-            criteria1.andUsernameLike("%"+keyWord+"%");
+            criteria3.andUsernameLike("%"+keyWord+"%");
 
+            example.or(criteria1);
             example.or(criteria2);
             example.or(criteria3);
         }
