@@ -6,6 +6,8 @@ import com.zls.atcrowdfunding.bean.TAdmin;
 import com.zls.atcrowdfunding.bean.TMenu;
 import com.zls.atcrowdfunding.service.TAdminService;
 import com.zls.atcrowdfunding.service.TMenuService;
+import com.zls.atcrowdfunding.utils.Const;
+import com.zls.atcrowdfunding.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -115,5 +118,26 @@ public class TAdminController {
             session.invalidate();
         }
         return "redirect:/welcome.jsp";
+    }
+
+    /**
+     * 新增用户
+     */
+    @RequestMapping("/admin/saveAdmin")
+    public String saveAdmin(TAdmin admin){
+        tAdminService.saveAdmin(admin);
+        return "redirect:/admin/index?pageNum=1";
+        ////重定向到index，这样会默认查询一遍
+        // 由于oracle中新插入的数据默认在最上方，所以显示查询页为1，
+        //如果向重定向到最后一页，那么可以将1改为 Integer.MAX_VALUE,详见spring-mybatis分页合理化
+    }
+
+    /**
+     * 先跳转到新增用户的界面
+     * @return
+     */
+    @RequestMapping("/admin/toAdd")
+    public String toAdd(){
+        return "/admin/add";
     }
 }

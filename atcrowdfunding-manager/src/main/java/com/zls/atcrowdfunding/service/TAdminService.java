@@ -3,6 +3,8 @@ package com.zls.atcrowdfunding.service;
 import com.zls.atcrowdfunding.bean.TAdmin;
 import com.zls.atcrowdfunding.bean.TAdminExample;
 import com.zls.atcrowdfunding.mapper.TAdminMapper;
+import com.zls.atcrowdfunding.utils.Const;
+import com.zls.atcrowdfunding.utils.DateUtil;
 import com.zls.atcrowdfunding.utils.MD5Util;
 import com.zls.atcrowdfunding.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,15 @@ public class TAdminService {
             example.or(criteria3);
         }
         return tAdminMapper.selectByExample(example);
+    }
+
+    /**
+     * 新增用户
+     */
+    public void saveAdmin(TAdmin admin){
+        admin.setUserpswd(MD5Util.digest(Const.DEFALUT_PASSWORD));
+        admin.setCreatetime(DateUtil.getFormatTime());
+        tAdminMapper.insertSelective(admin);
     }
 
 }
