@@ -79,4 +79,7 @@ public class TAdminService {
         tAdminMapper.insertSelective(admin);
     }
 
+    public TAdmin getAdminById(Integer id) {
+        return tAdminMapper.selectByPrimaryKey(Long.valueOf(id));
+    }
 }

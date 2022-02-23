@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author zls
@@ -121,6 +118,15 @@ public class TAdminController {
     }
 
     /**
+     * 先跳转到新增用户的界面
+     * @return
+     */
+    @RequestMapping("/admin/toAdd")
+    public String toAdd(){
+        return "/admin/add";
+    }
+
+    /**
      * 新增用户
      */
     @RequestMapping("/admin/saveAdmin")
@@ -132,11 +138,13 @@ public class TAdminController {
     }
 
     /**
-     * 先跳转到新增用户的界面
-     * @return
+     * 先跳转到修改页面，并将数据回显
      */
-    @RequestMapping("/admin/toAdd")
-    public String toAdd(){
-        return "/admin/add";
+    @RequestMapping("/admin/toEdit")
+    public String editAdmin(Integer id, Map<String,Object> map){
+        TAdmin admin = tAdminService.getAdminById(id);
+        map.put("admin",admin);
+        return "admin/edit";
     }
+
 }
