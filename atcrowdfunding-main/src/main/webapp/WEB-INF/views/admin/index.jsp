@@ -49,7 +49,7 @@
             </div>
             <button type="button" class="btn btn-warning" onclick="$('#adminQueryByKeyWord').submit()"><i class="glyphicon glyphicon-search"></i> 查询</button>
           </form>
-          <button type="button" class="btn btn-danger deleteSelectedAdmins" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+          <button type="button" class="btn btn-danger deleteSelectedAdmins" onclick="deleteAdmins()" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
           <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${applicationScope.appPath}/admin/toAdd'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
           <br>
           <hr style="clear:both;">
@@ -79,8 +79,7 @@
                             onclick="window.location.href = '${applicationScope.appPath}/admin/toEdit?id=${admin.id}&pageNum=${pageInfo.pageNum}'" >
                       <i class=" glyphicon glyphicon-pencil"></i>
                     </button>
-                    <button type="button" class="btn btn-danger btn-xs"
-                            onclick="window.location.href = '${applicationScope.appPath}/admin/deleteAdmin?id=${admin.id}'">
+                    <button type="button" class="btn btn-danger btn-xs" onclick="deleteAdminById(${admin.id})">
                       <i class=" glyphicon glyphicon-remove"></i>
                     </button>
                   </td>
@@ -131,6 +130,7 @@
 </div>
 
 <%@include file="/WEB-INF/common/js.jsp"%>
+<script src="${applicationScope.appPath}/static/layer/layer.js"></script>
 <script type="text/javascript">
   $(function () {
     //侧边栏的打开关闭
@@ -162,21 +162,42 @@
     //       checkBox.checked=$(".adminCheckAll")[0].checked;
     //   })
     // })
-    $(".deleteSelectedAdmins").click(function () {
+  });
+
+  function deleteAdminById(id){//删除单个用户
+    layer.confirm("是否删除", {btr:['确定','取消']},
+            function (){
+              window.location.href = "${applicationScope.appPath}/admin/deleteAdmin?id="+id;
+              layer.alert("删除成功");
+            },
+            function (){
+              layer.alert("取消成功");
+            }
+    )
+  }
+
+  function deleteAdmins(){//删除选中的用户
       let Ids = [];
       $(".adminCheck").each(function (i,checkBox) {
         if(checkBox.checked){
           Ids.push($(".adminCheck")[i].id);
         }
       })
-      window.location.href="${applicationScope.appPath}/admin/deleteSelectedAdmins?ids="+Ids;
-    })
-  });
+      if(Ids.length===0){
+        layer.msg("未选中任何用户",{time:1500,icon:5,shift:6});
+      }else{
+        layer.confirm("是否删除", {btr:['确定','取消']},
+                function (){
+                  window.location.href="${applicationScope.appPath}/admin/deleteSelectedAdmins?ids="+Ids;
+                  layer.alert("删除成功");
+                },
+                function (){
+                  layer.alert("取消成功");
+                }
+        )
+      }
+  }
 
-
-  $("tbody .btn-success").click(function(){
-    window.location.href = "assignRole.html";
-  });
 
 </script>
 </body>
