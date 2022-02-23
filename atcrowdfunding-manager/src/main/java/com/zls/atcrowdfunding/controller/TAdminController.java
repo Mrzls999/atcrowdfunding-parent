@@ -158,4 +158,25 @@ public class TAdminController {
         return "redirect:/admin/index?pageNum="+pageNum;
     }
 
+    /**
+     * 删除单个用户（没做级联删除）
+     */
+    @RequestMapping("/admin/deleteAdmin")
+    public String deleteAdmin(Integer id){
+        tAdminService.deleteAdminById(id);
+        return "redirect:/admin/index";
+    }
+
+    /**
+     * 删除多个用户
+     */
+    @RequestMapping("/admin/deleteSelectedAdmins")
+    public String deleteAdmins(String ids){
+//        String[] adminIds = ids.split(",");
+//        for (String adminId : adminIds) {如果删除很多用户的话，会往oracle发送太多请求，所以这样不行
+//            tAdminService.deleteAdminById(Integer.valueOf(adminId));
+//        }
+        tAdminService.deleteAdminByIds(ids);
+        return "redirect:/admin/index";
+    }
 }

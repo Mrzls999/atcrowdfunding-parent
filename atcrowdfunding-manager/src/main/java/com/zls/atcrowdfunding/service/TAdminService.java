@@ -10,6 +10,7 @@ import com.zls.atcrowdfunding.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,5 +90,23 @@ public class TAdminService {
      */
     public void editAdmin(TAdmin admin) {
         tAdminMapper.updateByPrimaryKeySelective(admin);
+    }
+
+    //通过id删除用户
+    public void deleteAdminById(Integer id) {
+        tAdminMapper.deleteByPrimaryKey(Long.valueOf(id));
+    }
+
+    //批量删除用户
+    public void deleteAdminByIds(String adminIds) {
+        String[] split = adminIds.split(",");
+        List<Long> Ids = new ArrayList<>();
+        for (String s : split) {
+            Ids.add(Long.valueOf(s));
+        }
+        TAdminExample example = new TAdminExample();
+        TAdminExample.Criteria criteria = example.createCriteria();
+        criteria.andIdIn(Ids);
+        tAdminMapper.deleteByExample(example);
     }
 }

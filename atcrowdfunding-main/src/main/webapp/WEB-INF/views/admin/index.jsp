@@ -49,7 +49,7 @@
             </div>
             <button type="button" class="btn btn-warning" onclick="$('#adminQueryByKeyWord').submit()"><i class="glyphicon glyphicon-search"></i> 查询</button>
           </form>
-          <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+          <button type="button" class="btn btn-danger deleteSelectedAdmins" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
           <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${applicationScope.appPath}/admin/toAdd'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
           <br>
           <hr style="clear:both;">
@@ -58,7 +58,7 @@
               <thead>
               <tr >
                 <th style="width: 30px">#</th>
-                <th style="width: 30px"><input type="checkbox"/></th>
+                <th style="width: 30px"><input type="checkbox" class="adminCheckAll"/></th>
                 <th>账号</th>
                 <th>名称</th>
                 <th>邮箱地址</th>
@@ -69,7 +69,7 @@
               <c:forEach items="${pageInfo.list}" var="admin" varStatus="status">
                 <tr>
                   <td>${status.count}</td>
-                  <td><input type="checkbox"></td>
+                  <td><input type="checkbox" id="${admin.id}" class="adminCheck"></td>
                   <td>${admin.loginacct}</td>
                   <td>${admin.username}</td>
                   <td>${admin.email}</td>
@@ -79,7 +79,10 @@
                             onclick="window.location.href = '${applicationScope.appPath}/admin/toEdit?id=${admin.id}&pageNum=${pageInfo.pageNum}'" >
                       <i class=" glyphicon glyphicon-pencil"></i>
                     </button>
-                    <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
+                    <button type="button" class="btn btn-danger btn-xs"
+                            onclick="window.location.href = '${applicationScope.appPath}/admin/deleteAdmin?id=${admin.id}'">
+                      <i class=" glyphicon glyphicon-remove"></i>
+                    </button>
                   </td>
                 </tr>
               </c:forEach>
@@ -130,6 +133,7 @@
 <%@include file="/WEB-INF/common/js.jsp"%>
 <script type="text/javascript">
   $(function () {
+    //侧边栏的打开关闭
     $(".list-group-item").click(function(){
       if ( $(this).find("ul") ) {
         $(this).toggleClass("tree-closed");
@@ -140,10 +144,40 @@
         }
       }
     });
+    //用户全选效果
+    let adminCheckAll = $(".adminCheckAll");
+    adminCheckAll.click(function () {//方式1
+      //$(".adminCheck").attr("checked",adminCheckAll[0].checked);//这种为啥只能用一次，第二次就不行了呢？在动过property的情况下 attribute不会同步property
+      $(".adminCheck").prop("checked",adminCheckAll[0].checked);
+    })
+
+    // $(".adminCheckAll").click(function () {
+    // $.each($(".adminCheck"),function (i, checkBox) {方式2
+    //   现在需要获取复选框的checked属性(true,false)，checked属性属于dom对象
+    //   jQuery对象转换为dom对象的方式 $(".adminCheckAll")[0] / $(".adminCheckAll").get(0)
+    //   $(".adminCheckAll")[0].checked
+    //   checkBox.checked=$(".adminCheckAll")[0].checked;
+    // });
+    //   $(".adminCheck").each(function (i,checkBox) {方式3
+    //       checkBox.checked=$(".adminCheckAll")[0].checked;
+    //   })
+    // })
+    $(".deleteSelectedAdmins").click(function () {
+      let Ids = [];
+      $(".adminCheck").each(function (i,checkBox) {
+        if(checkBox.checked){
+          Ids.push($(".adminCheck")[i].id);
+        }
+      })
+      window.location.href="${applicationScope.appPath}/admin/deleteSelectedAdmins?ids="+Ids;
+    })
   });
+
+
   $("tbody .btn-success").click(function(){
     window.location.href = "assignRole.html";
   });
+
 </script>
 </body>
 </html>
