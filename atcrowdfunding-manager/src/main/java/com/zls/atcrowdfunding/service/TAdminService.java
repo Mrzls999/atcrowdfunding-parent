@@ -82,4 +82,12 @@ public class TAdminService {
     public TAdmin getAdminById(Integer id) {
         return tAdminMapper.selectByPrimaryKey(Long.valueOf(id));
     }
+
+    /**
+     * 修改用户
+     * @param admin
+     */
+    public void editAdmin(TAdmin admin) {
+        tAdminMapper.updateByPrimaryKeySelective(admin);
+    }
 }

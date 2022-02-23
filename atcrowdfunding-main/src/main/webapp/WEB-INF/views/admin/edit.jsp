@@ -40,21 +40,21 @@
             <div class="panel panel-default">
                 <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
                 <div class="panel-body">
-                    <form role="form">
+                    <form action="${applicationScope.appPath}/admin/editAdmin?id=${admin.id}&pageNum=${pageNum}" method="post" role="form">
                         <div class="form-group">
                             <label for="exampleInputPassword1">登陆账号</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="${admin.loginacct}">
+                            <input type="text" name="loginacct" class="form-control" id="exampleInputPassword1" value="${admin.loginacct}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">用户名称</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="${admin.username}">
+                            <input type="text" name="username" class="form-control" id="exampleInputPassword1" value="${admin.username}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">邮箱地址</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" value="${admin.email}">
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" value="${admin.email}">
                             <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
                         </div>
-                        <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 修改</button>
+                        <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 修改</button>
                         <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
                     </form>
                 </div>

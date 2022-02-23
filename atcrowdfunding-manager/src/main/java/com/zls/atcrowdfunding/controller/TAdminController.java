@@ -141,10 +141,21 @@ public class TAdminController {
      * 先跳转到修改页面，并将数据回显
      */
     @RequestMapping("/admin/toEdit")
-    public String editAdmin(Integer id, Map<String,Object> map){
+    public String toEdit(Integer id,Integer pageNum, Map<String,Object> map){
         TAdmin admin = tAdminService.getAdminById(id);
         map.put("admin",admin);
+        map.put("pageNum",pageNum);
         return "admin/edit";
+    }
+
+    /**
+     * 修改用户
+     * @return
+     */
+    @RequestMapping("/admin/editAdmin")
+    public String editAdmin(TAdmin admin,Integer pageNum){
+        tAdminService.editAdmin(admin);
+        return "redirect:/admin/index?pageNum="+pageNum;
     }
 
 }

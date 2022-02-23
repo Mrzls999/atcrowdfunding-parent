@@ -4,10 +4,10 @@
   <resultMap id="BaseResultMap" type="com.zls.atcrowdfunding.bean.TAdmin">
     <id column="ID" jdbcType="NUMERIC" property="id" />
     <result column="LOGINACCT" jdbcType="VARCHAR" property="loginacct" />
-    <result column="USERPSWD" jdbcType="CHAR" property="userpswd" />
+    <result column="USERPSWD" jdbcType="VARCHAR" property="userpswd" />
     <result column="USERNAME" jdbcType="VARCHAR" property="username" />
     <result column="EMAIL" jdbcType="VARCHAR" property="email" />
-    <result column="CREATETIME" jdbcType="CHAR" property="createtime" />
+    <result column="CREATETIME" jdbcType="VARCHAR" property="createtime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -104,8 +104,8 @@
     insert into T_ADMIN (ID, LOGINACCT, USERPSWD, 
       USERNAME, EMAIL, CREATETIME
       )
-    values (#{id,jdbcType=NUMERIC}, #{loginacct,jdbcType=VARCHAR}, #{userpswd,jdbcType=CHAR}, 
-      #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createtime,jdbcType=CHAR}
+    values (#{id,jdbcType=NUMERIC}, #{loginacct,jdbcType=VARCHAR}, #{userpswd,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.zls.atcrowdfunding.bean.TAdmin">
@@ -138,7 +138,7 @@
         #{loginacct,jdbcType=VARCHAR},
       </if>
       <if test="userpswd != null">
-        #{userpswd,jdbcType=CHAR},
+        #{userpswd,jdbcType=VARCHAR},
       </if>
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
@@ -147,7 +147,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
-        #{createtime,jdbcType=CHAR},
+        #{createtime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -167,7 +167,7 @@
         LOGINACCT = #{record.loginacct,jdbcType=VARCHAR},
       </if>
       <if test="record.userpswd != null">
-        USERPSWD = #{record.userpswd,jdbcType=CHAR},
+        USERPSWD = #{record.userpswd,jdbcType=VARCHAR},
       </if>
       <if test="record.username != null">
         USERNAME = #{record.username,jdbcType=VARCHAR},
@@ -176,7 +176,7 @@
         EMAIL = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.createtime != null">
-        CREATETIME = #{record.createtime,jdbcType=CHAR},
+        CREATETIME = #{record.createtime,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -187,10 +187,10 @@
     update T_ADMIN
     set ID = #{record.id,jdbcType=NUMERIC},
       LOGINACCT = #{record.loginacct,jdbcType=VARCHAR},
-      USERPSWD = #{record.userpswd,jdbcType=CHAR},
+      USERPSWD = #{record.userpswd,jdbcType=VARCHAR},
       USERNAME = #{record.username,jdbcType=VARCHAR},
       EMAIL = #{record.email,jdbcType=VARCHAR},
-      CREATETIME = #{record.createtime,jdbcType=CHAR}
+      CREATETIME = #{record.createtime,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -202,7 +202,7 @@
         LOGINACCT = #{loginacct,jdbcType=VARCHAR},
       </if>
       <if test="userpswd != null">
-        USERPSWD = #{userpswd,jdbcType=CHAR},
+        USERPSWD = #{userpswd,jdbcType=VARCHAR},
       </if>
       <if test="username != null">
         USERNAME = #{username,jdbcType=VARCHAR},
@@ -211,7 +211,7 @@
         EMAIL = #{email,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
-        CREATETIME = #{createtime,jdbcType=CHAR},
+        CREATETIME = #{createtime,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=NUMERIC}
@@ -219,10 +219,10 @@
   <update id="updateByPrimaryKey" parameterType="com.zls.atcrowdfunding.bean.TAdmin">
     update T_ADMIN
     set LOGINACCT = #{loginacct,jdbcType=VARCHAR},
-      USERPSWD = #{userpswd,jdbcType=CHAR},
+      USERPSWD = #{userpswd,jdbcType=VARCHAR},
       USERNAME = #{username,jdbcType=VARCHAR},
       EMAIL = #{email,jdbcType=VARCHAR},
-      CREATETIME = #{createtime,jdbcType=CHAR}
+      CREATETIME = #{createtime,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=NUMERIC}
   </update>
 </mapper>
