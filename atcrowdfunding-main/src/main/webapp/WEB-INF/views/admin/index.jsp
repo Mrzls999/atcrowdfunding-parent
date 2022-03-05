@@ -62,7 +62,7 @@
                 <th>账号</th>
                 <th>名称</th>
                 <th>邮箱地址</th>
-                <th style="width: 100px" >操作</th>
+                <th style="width: 100px;text-align: center" >操作</th>
               </tr>
               </thead>
               <tbody>
@@ -88,7 +88,7 @@
               </tbody>
               <tfoot>
               <tr >
-                <td colspan="6" align="center">
+                <td colspan="6" style="text-align: center">
                   <ul class="pagination">
 
                     <c:if test="${pageInfo.isFirstPage || pageInfo.list.size()==0}">
