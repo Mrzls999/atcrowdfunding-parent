@@ -37,4 +37,10 @@ public class TRoleController {
         List<TRole> tRoles = tRoleService.getTRoles(keyWord);
         return new PageInfo<TRole>(tRoles, 5);
     }
+
+    @ResponseBody
+    @RequestMapping("/role/addRole")
+    public int addRole(TRole tRole){
+        return tRoleService.saveRole(tRole)>0?1:0;
+    }
 }

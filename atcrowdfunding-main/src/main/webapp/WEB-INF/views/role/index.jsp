@@ -50,10 +50,12 @@
                                 <input class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                        <button type="button" class="btn btn-warning" onclick="loadData(1)"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <!--toggle:若关闭则弹出，若弹出则关闭；target：目标地址-->
+                    <button type="button" class="btn btn-primary" id="toRoleAdd" style="float:right;">
+                        <i class="glyphicon glyphicon-plus"></i> 新增</button>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
@@ -86,7 +88,36 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">角色添加</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" role="form">
+                    <div class="form-group">
+                        <label for="roleName">角色名称</label>
+                        <input type="text" name="name" class="form-control" id="roleName" placeholder="请输入角色名称">
+                    </div>
+                    <button id="addRole" type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+                </form>
+            </div>
+<%--            <div class="modal-footer">--%>
+<%--                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--%>
+<%--                <button type="button" class="btn btn-primary">Save changes</button>--%>
+<%--            </div>--%>
+        </div>
+    </div>
+</div>
+
+
 <%@include file="/WEB-INF/common/js.jsp"%>>
+<script src="${applicationScope.appPath}/static/layer/layer.js"></script>
+
 <script type="text/javascript">
     $(function () {
         $(".list-group-item").click(function(){
@@ -161,6 +192,31 @@
 
         $(".pagination").html(content);
     }
+
+    //弹出添加页面
+    $("#toRoleAdd").click(function () {
+        $('#roleModal').modal({
+            show:true,//模态框初始化之后就立即显示出来
+            backdrop:false,//关闭-->点击空白处按钮消失
+            keyboard:false,//键盘上的 esc 键被按下时不关闭模态框。
+        })
+    })
+
+    $("#addRole").click(function () {
+        let name = $("#roleName").val()
+        $.post("${applicationScope.appPath}/role/addRole",{"name":name},function (res) {
+            if(res===1){//如果插入成功
+                layer.msg("插入成功",{time:2000,icon:6},function(){
+                    $("#roleModal").modal("hide");//如果插入成功则关闭
+                });//卧槽，有多行语句时得加分号，不加竟然不报错，但是不成功有时候
+                // loadData(10000000);//跳转到最后一页
+            }else{//如果插入失败
+                layer.msg("插入失败",{time:3000,icon:5,shift:6})
+            }
+        })
+    })
+
+
 </script>
 </body>
 </html>

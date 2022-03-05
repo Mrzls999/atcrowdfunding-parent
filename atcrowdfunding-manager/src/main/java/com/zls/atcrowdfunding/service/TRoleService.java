@@ -18,10 +18,16 @@ public class TRoleService {
     @Autowired
     private TRoleMapper tRoleMapper;
 
+    //查询角色信息
     public List<TRole> getTRoles(String keyWord){
         TRoleExample example = new TRoleExample();
         TRoleExample.Criteria criteria = example.createCriteria();
         criteria.andNameLike("%"+keyWord+"%");
         return tRoleMapper.selectByExample(example);
+    }
+
+    //保存角色信息
+    public Integer saveRole(TRole tRole) {
+        return tRoleMapper.insertSelective(tRole);
     }
 }
