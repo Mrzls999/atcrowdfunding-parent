@@ -32,7 +32,7 @@
 
 <body>
 
-<%@include file="/WEB-INF/common/nav.jsp"%>>
+<%@include file="/WEB-INF/common/nav.jsp"%>
 
 <div class="container-fluid">
     <div class="row">
@@ -102,20 +102,20 @@
                         <label for="roleName">角色名称</label>
                         <input type="text" name="name" class="form-control" id="roleName" placeholder="请输入角色名称">
                     </div>
-                    <button id="addRole" type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
-                    <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+<%--                    <button id="addRole" type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>--%>
+<%--                    <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>--%>
                 </form>
             </div>
-<%--            <div class="modal-footer">--%>
-<%--                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--%>
-<%--                <button type="button" class="btn btn-primary">Save changes</button>--%>
-<%--            </div>--%>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">取消</button>
+                <button id="addRole" type="button" class="btn btn-primary btn-success">保存</button>
+            </div>
         </div>
     </div>
 </div>
 
 
-<%@include file="/WEB-INF/common/js.jsp"%>>
+<%@include file="/WEB-INF/common/js.jsp"%>
 <script src="${applicationScope.appPath}/static/layer/layer.js"></script>
 
 <script type="text/javascript">
@@ -203,19 +203,20 @@
     })
 
     $("#addRole").click(function () {
-        let name = $("#roleName").val()
+        let name = $("#roleName").val();
         $.post("${applicationScope.appPath}/role/addRole",{"name":name},function (res) {
-            if(res===1){//如果插入成功
-                layer.msg("插入成功",{time:2000,icon:6},function(){
-                    $("#roleModal").modal("hide");//如果插入成功则关闭
-                });//卧槽，有多行语句时得加分号，不加竟然不报错，但是不成功有时候
-                // loadData(10000000);//跳转到最后一页
-            }else{//如果插入失败
-                layer.msg("插入失败",{time:3000,icon:5,shift:6})
+            if(res==="yes"){//如果插入成功
+                layer.msg('插入成功', {icon: 6,time: 1000}, function(){
+                    $("#roleModal").modal("hide");
+                    loadData(100000000);//重新查询数据
+                });
+            }else {//如果插入失败
+                layer.msg('插入失败', {icon: 5,time: 1000},function () {
+                    $("#roleModal").modal("show");
+                });
             }
-        })
+        });
     })
-
 
 </script>
 </body>

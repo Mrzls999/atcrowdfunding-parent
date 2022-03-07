@@ -35,12 +35,16 @@ public class TRoleController {
                            @RequestParam(value = "keyWord",required = false,defaultValue = "")String keyWord){
         PageHelper.startPage(pageNum,pageSize);
         List<TRole> tRoles = tRoleService.getTRoles(keyWord);
-        return new PageInfo<TRole>(tRoles, 5);
+        return new PageInfo<>(tRoles, 5);
     }
 
     @ResponseBody
     @RequestMapping("/role/addRole")
-    public int addRole(TRole tRole){
-        return tRoleService.saveRole(tRole)>0?1:0;
+    public String addRole(TRole tRole){
+        int row=  tRoleService.saveRole(tRole);
+        if(row>0){
+            return "yes";
+        }
+        return "no";
     }
 }
