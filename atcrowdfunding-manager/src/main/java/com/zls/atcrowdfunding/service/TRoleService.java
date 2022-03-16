@@ -56,4 +56,8 @@ public class TRoleService {
         criteria.andIdIn(roleIds);
         return tRoleMapper.deleteByExample(example);
     }
+    //修改角色信息
+    public int updateRoleById(TRole role) {
+        return tRoleMapper.updateByPrimaryKey(role);
+    }
 }

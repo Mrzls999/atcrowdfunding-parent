@@ -100,7 +100,7 @@
                 <form method="post" role="form">
                     <div class="form-group">
                         <label for="roleName">角色名称</label>
-                        <input type="text" name="name" class="form-control" id="roleName" placeholder="请输入角色名称">
+                        <input type="text" name="" class="form-control" id="roleName" placeholder="请输入角色名称">
                     </div>
 <%--                    <button id="addRole" type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>--%>
 <%--                    <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>--%>
@@ -171,6 +171,7 @@
         }
         $("tbody").html(content);
         deleteRole();
+        addEditRoleEvent();
     }
 
     //显示分页信息
@@ -203,30 +204,38 @@
             show:true,//模态框初始化之后就立即显示出来
             backdrop:false,//关闭-->点击空白处按钮消失
             keyboard:false,//键盘上的 esc 键被按下时不关闭模态框。
-        })
+        });
+        $("#myModalLabel").prop("innerText","角色添加");
+        $("#roleName").prop({"name":"","value":""});
     })
 
     //添加角色
     $("#addRole").click(function () {
-        let name = $("#roleName").val();
-        $.post("${applicationScope.appPath}/role/addRole",{"name":name},function (res) {
-            if(res==="yes"){//如果插入成功
-                layer.msg('插入成功', {icon: 6,time: 1000}, function(){
-                    $("#roleModal").modal("hide");
-                    loadData(100000000);//重新查询数据
-                });
-            }else {//如果插入失败
-                layer.msg('插入失败', {icon: 5,time: 1000},function () {
-                    $("#roleModal").modal("show");
-                });
-            }
-        });
+        let roleName$ = $("#roleName");
+        let idV = roleName$.attr("name");
+        let nameV = roleName$.val();
+        if(idV==null||idV===""){//如果没有id，则
+            $.post("${applicationScope.appPath}/role/addRole",{"name":nameV},function (res) {
+                if(res==="yes"){//如果插入成功
+                    layer.msg('插入成功', {icon: 6,time: 1000}, function(){
+                        $("#roleModal").modal("hide");
+                        loadData(100000000);//重新查询数据
+                    });
+                }else {//如果插入失败
+                    layer.msg('插入失败', {icon: 5,time: 1000},function () {
+                        $("#roleModal").modal("show");
+                    });
+                }
+            });
+        }else {
+            editRole(idV,nameV);
+        }
     })
 
     //删除单个角色
     function deleteRole() {
         // $(".btn.btn-danger.btn-xs").on("click",function () {//获取多个拥有多个class的方式1
-            $("[class='btn btn-danger btn-xs']").click(function () {//获取多个拥有多个class的方式2
+            $("[class='btn btn-danger btn-xs']").click(function () {//获取多个拥有多个class的方式2；最好是使用第二种，因为方式1会将其他的也添加了单击事件
                 let nameV = $(this).attr("name");
                 layer.confirm("是否删除此角色信息",{btr:["确定","取消"]},
                 function () {//点击确定时调用的方法
@@ -247,6 +256,37 @@
         })
     }
 
+    //给修改按钮添加单击事件
+    function addEditRoleEvent() {
+        $("[class='btn btn-primary btn-xs']").click(function () {
+            let currentId = $(this).next().attr("name");//获取当前id值
+            let currentName = $(this).parent().prev().prop("innerText");//获取当前name值
+            // let currentName = $(this).parent().prev().prop("outerText");
+            // innerText和outerText在获取文本值时没有区别，但在其他的时候，比如赋值时outerText会将外部的开始和结束标签也包含在里边，导致 要替换的文本值 把一整个标签给替换掉了
+            $('#roleModal').modal({
+                show:true,//模态框初始化之后就立即显示出来
+                backdrop:false,//关闭-->点击空白处按钮消失
+                keyboard:false,//键盘上的 esc 键被按下时不关闭模态框。
+            });
+            $("#myModalLabel").prop("innerText","角色修改");
+            $("#roleName").prop({"name":currentId,"value":currentName});
+        })
+    }
+
+    //修改角色
+    function editRole(idV,nameV) {
+        $.post("${applicationScope.appPath}/role/editRole",{"id":idV,"name":nameV},function (res) {
+            if(res===1){//如果数据库影响的行数为1，则成功
+                layer.msg("修改成功",{icon:6,time:1000},function () {
+                    $("#roleModal").modal("hide");
+                    loadData(1);//重新查询数据
+                });
+            }else {
+                layer.msg("修改失败",{icon:5,time:1000,shift:6});
+            }
+        })
+    }
+
     //复选框选中全部
     $("#checkAll").click(function () {
         let checkAllFlag = $("#checkAll").prop("checked");
@@ -254,8 +294,8 @@
     })
 
     //删除多个角色
-    $(".btn.btn-danger").click(function deleteRoles() {
-        var Ids=[];
+    $("[class='btn btn-danger']").click(function deleteRoles() {
+        let Ids=[];
         layer.confirm("是否删除",{btr:["确定","取消"]},
         function () {//确定时执行的方法
             $("[class='checkOne']").each(function (i,checkBox) {//i 下标，checkOne每个dom对象，所以下边的if判断可以直接使用dom的属性值

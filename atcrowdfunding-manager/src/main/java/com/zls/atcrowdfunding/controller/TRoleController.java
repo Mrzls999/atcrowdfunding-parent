@@ -68,4 +68,10 @@ public class TRoleController {
     public int deleteOnePageRoles(String ids){
         return tRoleService.deleteOnePageRoles(ids);
     }
+
+    @ResponseBody
+    @RequestMapping("/role/editRole")
+    public int updateRoleById(TRole role){
+        return tRoleService.updateRoleById(role);
+    }
 }
