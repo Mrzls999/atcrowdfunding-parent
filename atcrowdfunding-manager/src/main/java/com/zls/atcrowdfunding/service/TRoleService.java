@@ -49,7 +49,6 @@ public class TRoleService {
         List<Long> roleIds = new ArrayList<>();
         for (String s : split) {
             roleIds.add(Long.valueOf(s));
-            System.out.println(s);
         }
 
         TRoleExample example = new TRoleExample();
