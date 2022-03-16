@@ -63,7 +63,7 @@
                             <thead>
                             <tr >
                                 <th style="width: 30px">#</th>
-                                <th style="width: 30px"><input type="checkbox"></th>
+                                <th style="width: 30px"><input id="checkAll" type="checkbox"></th>
                                 <th>名称</th>
                                 <th style="width: 100px;">操作</th>
                             </tr>
@@ -114,7 +114,6 @@
     </div>
 </div>
 
-
 <%@include file="/WEB-INF/common/js.jsp"%>
 <script src="${applicationScope.appPath}/static/layer/layer.js"></script>
 
@@ -136,6 +135,7 @@
 
     //异步获取角色和分页信息 pageNum pageSize keyword
     let keyWord;//查询条件
+
     // function loadData(pageNum,pageSize) {
     function loadData(pageNum) {
         // $(" #test ").val()
@@ -147,28 +147,32 @@
         $.getJSON("${applicationScope.appPath}/role/loadData",
                     {"pageNum":pageNum,"pageSize":3,"keyWord":keyWord},
                     function (res) {
+                        $("#checkAll").prop("checked",false);//查询数据后将复选框取消掉
                         showRoles(res.list);
                         showPages(res);
                     }
         )
     }
-    //显示角色信息
+
+    //显示角色信息[处理完成后，并为其添加单击事件deleteRole]
     function showRoles(roles){
         let content="";
         for(let i=0;i<roles.length;i++){
             content+='<tr>';
             content+='	<td>'+(i+1)+'</td>';
-            content+='	<td><input type="checkbox"></td>';
+            content+='	<td><input class="checkOne" type="checkbox" name="'+(roles[i].id)+'"></td>';
             content+='	<td>'+(roles[i].name)+'</td>';
             content+='	<td>';
             content+='		<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
             content+='		<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-            content+='		<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+            content+='		<button type="button" class="btn btn-danger btn-xs" name="'+(roles[i].id)+'"><i class=" glyphicon glyphicon-remove"></i></button>';
             content+='	</td>';
             content+='</tr>';
         }
         $("tbody").html(content);
+        deleteRole();
     }
+
     //显示分页信息
     function showPages(pageInfo) {
         let content="";
@@ -202,6 +206,7 @@
         })
     })
 
+    //添加角色
     $("#addRole").click(function () {
         let name = $("#roleName").val();
         $.post("${applicationScope.appPath}/role/addRole",{"name":name},function (res) {
@@ -217,6 +222,81 @@
             }
         });
     })
+
+    //删除单个角色
+    function deleteRole() {
+        // $(".btn.btn-danger.btn-xs").on("click",function () {//获取多个拥有多个class的方式1
+            $("[class='btn btn-danger btn-xs']").click(function () {//获取多个拥有多个class的方式2
+                let nameV = $(this).attr("name");
+                layer.confirm("是否删除此角色信息",{btr:["确定","取消"]},
+                function () {//点击确定时调用的方法
+                    $.post("${applicationScope.appPath}/role/deleteOneRole",{"id":nameV},function (res) {
+                        if(res===1){//如果删除成功
+                            layer.msg('删除成功', {icon: 6,time: 1000}, function(){
+                                loadData(1);//重新查询数据
+                            });
+                        }else {
+                            layer.msg('删除失败', {icon: 5,time: 1000});//不做任何处理
+                        }
+                    });
+                },
+                function () {
+                    layer.msg("取消成功",{time:1000});
+                })
+
+        })
+    }
+
+    //复选框选中全部
+    $("#checkAll").click(function () {
+        let checkAllFlag = $("#checkAll").prop("checked");
+        $(".checkOne").prop("checked",checkAllFlag);
+    })
+
+    //删除多个角色
+    $(".btn.btn-danger").click(function deleteRoles() {
+        var Ids=[];
+        layer.confirm("是否删除",{btr:["确定","取消"]},
+        function () {//确定时执行的方法
+            $("[class='checkOne']").each(function (i,checkBox) {//i 下标，checkOne每个dom对象，所以下边的if判断可以直接使用dom的属性值
+                if(checkBox.checked){
+                    Ids.push($("[class='btn btn-danger btn-xs']")[i].name);//将选中的放进Ids
+                }
+            });
+            $.post("${applicationScope.appPath}/role/deleteOnePageRoles",{"ids":Ids.toString()},function (res){//异步删除
+                <%--JSON.stringify(Ids)传到后台的值是："["43","44"]"，需要去除 "、[、]三个符号--%>
+                if(res===Ids.length){
+                    layer.msg("删除成功",{icon:6,time:1000});
+                    loadData(1);
+                }else {
+                    layer.msg("删除失败",{icon:5,time:1000,shift:6});//shift:6==>晃动
+                }
+            });
+            // 如果像本例中使用的是Ids.toString()/JSON.stringify(Ids)，那么后台，只需要使用String ids来接收即可
+            <%--$.ajax({--%>
+            <%--    url:"${applicationScope.appPath}/role/deleteOnePageRoles",--%>
+            <%--    type:"post",--%>
+            <%--    data:{--%>
+            <%--        ids:Ids.toString()--%>
+            <%--    },--%>
+            <%--    success:function (res) {--%>
+            <%--        if(res==Ids.length){//因为返回的是字符串，所以只判断值是否相等即可--%>
+            <%--            layer.msg("删除成功",{icon:6,time:1000});--%>
+            <%--            loadData(1);--%>
+            <%--        }else {--%>
+            <%--            layer.msg("删除失败",{icon:5,time:1000,shift:6});//shift:6==>晃动--%>
+            <%--        }--%>
+            <%--    },--%>
+            <%--    error:function () {--%>
+            <%--        alert("error")//出错跳转的页面--%>
+            <%--    },--%>
+            <%--    dataType:"text"--%>
+            <%--});--%>
+        },
+        function () {//取消时执行的方法
+            layer.msg("取消成功",{time:1000});
+        })
+    });
 
 </script>
 </body>
