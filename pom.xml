@@ -10,6 +10,7 @@
         <module>atcrowdfunding-main</module>
         <module>atcrowdfunding-manager</module>
         <module>atcrowdfunding-common</module>
+        <module>atcrowdfunding-springSecurity</module>
     </modules>
 
     <description>父工程,聚合其他工程(pom) </description>
