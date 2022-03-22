@@ -25,9 +25,12 @@
 			<div class="layadmin-user-login-box layadmin-user-login-header">
 				<h2>layuiAdmin</h2>
 				<p>layui 官方出品的单页面后台管理模板系统</p>
+				<p>${SPRING_SECURITY_LAST_EXCEPTION.message}</p><%--表单提交请求失败，提取错误消息--%>
 			</div>
+			<form action="${PATH}/login" method="post">
 			<div
 				class="layadmin-user-login-box layadmin-user-login-body layui-form">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<div class="layui-form-item">
 					<label
 						class="layadmin-user-login-icon layui-icon layui-icon-username"
@@ -78,6 +81,7 @@
 						class="layadmin-user-jump-change layadmin-link">注册帐号</a>
 				</div>
 			</div>
+			</form>
 		</div>
 
 		<div class="layui-trans layadmin-user-login-footer">
@@ -87,7 +91,7 @@
 		</div>
 
 	</div>
-
+	<script src="${PATH}/layui/jquery.min.js"></script>
 	<script src="${PATH }/layui/layui.js"></script>
 	<script>
 		layui.use([ 'element', 'form' ], function() {
@@ -99,9 +103,10 @@
 				obj.elem.classList.add("layui-btn-disabled");//样式上的禁用效果
 				obj.elem.disabled = true;//真正的禁用效果
 				layer.msg("登陆成功，即将跳转");
-				setTimeout(function(){
-					location.href="main.html";
-				}, 2000);
+				// setTimeout(function(){
+				// 	location.href="main.html";
+				// }, 2000);
+				$("form").submit();//提交用户登录表单
 			});
 
 		});
