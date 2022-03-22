@@ -25,9 +25,12 @@
 			<div class="layadmin-user-login-box layadmin-user-login-header">
 				<h2>layuiAdmin</h2>
 				<p>layui 官方出品的单页面后台管理模板系统</p>
+				<p>${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
 			</div>
+			<form action="${PATH}/login" method="post">
 			<div
 				class="layadmin-user-login-box layadmin-user-login-body layui-form">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<div class="layui-form-item">
 					<label
 						class="layadmin-user-login-icon layui-icon layui-icon-username"
@@ -60,7 +63,7 @@
 					</div>
 				</div>
 				<div class="layui-form-item" style="margin-bottom: 20px;">
-					<input type="checkbox" name="remember" lay-skin="primary"
+					<input type="checkbox" name="remember-me" lay-skin="primary"
 						title="记住密码"> <a href="forget.html"
 						class="layadmin-user-jump-change layadmin-link"
 						style="margin-top: 7px;">忘记密码？</a>
@@ -78,6 +81,7 @@
 						class="layadmin-user-jump-change layadmin-link">注册帐号</a>
 				</div>
 			</div>
+			</form>
 		</div>
 
 		<div class="layui-trans layadmin-user-login-footer">
@@ -87,7 +91,7 @@
 		</div>
 
 	</div>
-
+    <script src="${PATH}/layui/jquery.min.js"></script>
 	<script src="${PATH }/layui/layui.js"></script>
 	<script>
 		layui.use([ 'element', 'form' ], function() {
@@ -99,9 +103,9 @@
 				obj.elem.classList.add("layui-btn-disabled");//样式上的禁用效果
 				obj.elem.disabled = true;//真正的禁用效果
 				layer.msg("登陆成功，即将跳转");
-				setTimeout(function(){
-					location.href="main.html";
-				}, 2000);
+
+				 $("form").submit();
+
 			});
 
 		});
