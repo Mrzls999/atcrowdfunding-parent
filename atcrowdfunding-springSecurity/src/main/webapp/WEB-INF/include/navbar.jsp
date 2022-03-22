@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	pageContext.setAttribute("PATH", request.getContextPath());
+%>
 <div class="layui-header">
 	<div class="layui-logo" onclick="location.href='${PATH }/main.html'">武林秘籍管理系统</div>
 	<!-- 头部区域（可配合layui已有的水平导航） -->
@@ -32,6 +35,6 @@
 					<a href="">安全设置</a>
 				</dd>
 			</dl></li>
-		<li class="layui-nav-item"><a href="">退出</a></li>
+		<li class="layui-nav-item"><a href="${PATH}/logout">退出</a></li>
 	</ul>
 </div>

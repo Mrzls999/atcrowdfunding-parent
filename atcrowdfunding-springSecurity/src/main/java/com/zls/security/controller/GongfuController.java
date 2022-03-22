@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class GongfuController {
 	
-	@GetMapping("/level1/{path}")
+	@GetMapping("/level1/{path}")//rest风格，你给我传值，我在下边获取
 	public String leve1Page(@PathVariable("path")String path){
 		return "/level1/"+path;
 	}
