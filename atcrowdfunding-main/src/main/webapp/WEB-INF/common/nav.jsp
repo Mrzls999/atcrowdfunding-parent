@@ -22,7 +22,11 @@
                             <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 个人设置</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
                             <li class="divider"></li>
-                            <li><a href="${applicationScope.appPath}/admin/logOut"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
+<%--                            <li><a href="${applicationScope.appPath}/admin/logOut"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>--%>
+                            <li><a class="userLogOut" href="javascript:"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
+                            <form class="userLogOut" action="${pageContext.request.contextPath}/logout" method="post">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
                         </ul>
                     </div>
                 </li>
@@ -38,3 +42,9 @@
         </div>
     </div>
 </nav>
+<script src="${pageContext.request.contextPath}/static/jquery/jquery-2.1.1.min.js"></script>
+<script>
+    $(".userLogOut").click(function () {
+        $(".userLogOut").submit();
+    })
+</script>

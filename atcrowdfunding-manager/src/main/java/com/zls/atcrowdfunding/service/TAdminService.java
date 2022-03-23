@@ -8,6 +8,7 @@ import com.zls.atcrowdfunding.utils.DateUtil;
 import com.zls.atcrowdfunding.utils.MD5Util;
 import com.zls.atcrowdfunding.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -75,7 +76,8 @@ public class TAdminService {
      * 新增用户
      */
     public void saveAdmin(TAdmin admin){
-        admin.setUserpswd(MD5Util.digest(Const.DEFALUT_PASSWORD));
+//        admin.setUserpswd(MD5Util.digest(Const.DEFALUT_PASSWORD));//md5加密
+        admin.setUserpswd(new BCryptPasswordEncoder().encode(Const.DEFALUT_PASSWORD));//BCrypt加密
         admin.setCreatetime(DateUtil.getFormatTime());
         tAdminMapper.insertSelective(admin);
     }

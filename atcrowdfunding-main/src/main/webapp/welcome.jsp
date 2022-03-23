@@ -34,6 +34,7 @@
 <div class="container">
 
     <form id="loginForm" action="${pageContext.request.contextPath}/login" method="post" class="form-signin" role="form">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
         <span style="color:red">${sessionScope.err}</span>
         <div class="form-group has-success has-feedback">

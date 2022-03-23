@@ -2,6 +2,7 @@ package com.zls.atcrowdfunding.mapper;
 
 import com.zls.atcrowdfunding.bean.TPermission;
 import com.zls.atcrowdfunding.bean.TPermissionExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,6 @@ public interface TPermissionMapper {
     int updateByPrimaryKeySelective(TPermission record);
 
     int updateByPrimaryKey(TPermission record);
+
+    List<TPermission> listPermissionByAdminId(Long id);
 }

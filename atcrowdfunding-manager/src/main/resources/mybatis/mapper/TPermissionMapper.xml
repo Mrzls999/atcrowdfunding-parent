@@ -8,6 +8,17 @@
     <result column="ICON" jdbcType="VARCHAR" property="icon" />
     <result column="PID" jdbcType="NUMERIC" property="pid" />
   </resultMap>
+  <select id="listPermissionByAdminId" resultMap="BaseResultMap">
+    select tPermission.id,tPermission.Name
+    from t_permission tPermission
+    inner join t_role_permission tRolePermission
+    on tRolePermission.Permissionid=tPermission.Id
+    inner join t_admin_role tAdminRole
+    on tAdminRole.Roleid=tRolePermission.Roleid
+    inner join t_admin t
+    on t.id=tAdminRole.Adminid
+    where t.id=#{id}
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

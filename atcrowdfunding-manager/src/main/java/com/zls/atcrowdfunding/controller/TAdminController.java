@@ -41,17 +41,17 @@ public class TAdminController {
      * @param tAdmin
      * @return
      */
-    @RequestMapping("/login")
-    public String login(TAdmin tAdmin, HttpSession session){
-        try {
-            TAdmin admin = tAdminService.getTAdmin(tAdmin);
-            session.setAttribute("admin",admin);
-        } catch (Exception e) {
-            session.setAttribute("err",e.getMessage());//用户名或密码错误
-            return "redirect:/welcome.jsp";
-        }
-        return "redirect:/actrowfunding/main";
-    }
+//    @RequestMapping("/login")
+//    public String login(TAdmin tAdmin, HttpSession session){
+//        try {
+//            TAdmin admin = tAdminService.getTAdmin(tAdmin);
+//            session.setAttribute("admin",admin);
+//        } catch (Exception e) {
+//            session.setAttribute("err",e.getMessage());//用户名或密码错误
+//            return "redirect:/welcome.jsp";
+//        }
+//        return "redirect:/actrowfunding/main";
+//    }
 
     /**
      * 获取side侧边栏数据
@@ -109,13 +109,13 @@ public class TAdminController {
     /**
      * 系统退出
      */
-    @RequestMapping("/admin/logOut")
-    public String logOut(HttpSession session){
-        if(session!=null){//如果session不为空，则令其手动失效
-            session.invalidate();
-        }
-        return "redirect:/welcome.jsp";
-    }
+//    @RequestMapping("/admin/logOut")
+//    public String logOut(HttpSession session){
+//        if(session!=null){//如果session不为空，则令其手动失效
+//            session.invalidate();
+//        }
+//        return "redirect:/welcome.jsp";
+//    }
 
     /**
      * 先跳转到新增用户的界面

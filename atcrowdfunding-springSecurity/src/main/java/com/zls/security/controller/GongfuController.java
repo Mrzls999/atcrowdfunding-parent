@@ -13,19 +13,39 @@ public class GongfuController {
 //	public String leve1Page(@PathVariable("path")String path){
 //		return "/level1/"+path;
 //	}
-	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('luohan')")
+
+
+//	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('luohan')")
+//	@GetMapping("/level1/1")//rest风格，你给我传值，我在下边获取
+//	public String leve1Page1(){
+//		return "/level1/"+1;
+//	}
+//
+//	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('wudang')")
+//	@GetMapping("/level1/2")//rest风格，你给我传值，我在下边获取
+//	public String leve1Page2(){
+//		return "/level1/"+2;
+//	}
+//
+//	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('quanzhen')")
+//	@GetMapping("/level1/3")//rest风格，你给我传值，我在下边获取
+//	public String leve1Page3(){
+//		return "/level1/"+3;
+//	}
+
+	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('putong:luohan')")
 	@GetMapping("/level1/1")//rest风格，你给我传值，我在下边获取
 	public String leve1Page1(){
 		return "/level1/"+1;
 	}
 
-	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('wudang')")
+	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('putong:wudang')")
 	@GetMapping("/level1/2")//rest风格，你给我传值，我在下边获取
 	public String leve1Page2(){
 		return "/level1/"+2;
 	}
 
-	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('quanzhen')")
+	@PreAuthorize("hasAnyRole('学徒','大师','宗师') and hasAuthority('putong:quanzhen')")
 	@GetMapping("/level1/3")//rest风格，你给我传值，我在下边获取
 	public String leve1Page3(){
 		return "/level1/"+3;
