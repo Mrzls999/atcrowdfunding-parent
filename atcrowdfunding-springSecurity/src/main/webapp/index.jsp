@@ -63,7 +63,7 @@
 					</div>
 				</div>
 				<div class="layui-form-item" style="margin-bottom: 20px;">
-					<input type="checkbox" name="remember" lay-skin="primary"
+					<input type="checkbox" name="remember-me" lay-skin="primary"
 						title="记住密码"> <a href="forget.html"
 						class="layadmin-user-jump-change layadmin-link"
 						style="margin-top: 7px;">忘记密码？</a>

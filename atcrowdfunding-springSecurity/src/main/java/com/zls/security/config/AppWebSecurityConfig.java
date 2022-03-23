@@ -1,10 +1,19 @@
 package com.zls.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author zls
@@ -16,14 +25,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     //认证
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //super.configure(auth); //如果认证失败 Bad credentials 密码错误
         //实验四：自定义认证用户信息 在服务器的内存中加载临时用户(最后用数据库代替) username loginacct
-        auth.inMemoryAuthentication().withUser("zhangsan").password("123").roles("学徒","大师")
-                .and()
-                .withUser("lisi").password("123").authorities("太极拳","七伤拳");
+//        auth.inMemoryAuthentication().withUser("zhangsan").password("123").roles("学徒","大师")
+//                .and()
+//                .withUser("lisi").password("123").authorities("太极拳","七伤拳");
+        auth.userDetailsService(userDetailsService);
     }
 
     //授权
@@ -32,6 +46,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         //super.configure(http);//父类中的方法    默认禁用所有的资源
         //3.1实验一：授权首页和静态资源
         http.authorizeRequests().antMatchers("/index.jsp","/layui/**").permitAll()//放行
+                                 //实验六：基于角色的访问控制[hasRole]
                                 .antMatchers("/level1/**").hasRole("学徒")//** --> level1下边的所有，包括文件夹
                                 //如果此用户没有这个权限[或角色]，则拒绝访问，不往下进行了；如果用户有这个权限[或角色]，则可以访问，不往下进行了
                                 .antMatchers("/level2/1").hasAuthority("太极拳")
@@ -55,7 +70,23 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         //如果使用超链接形式进行退出登录，那么得禁用csrf
         //如果想开启csrf，那么不能用超链接形式，得用提交表单的形式
 
+        //实验五：用户注销完成
         //登录注销
         http.logout();//session.invalidate();
+
+        //实验七：自定义访问拒绝处理页面
+        http.exceptionHandling()//异常处理
+                //.accessDeniedPage("/unauth.html");//经过拒绝的页面[通过/unauth.html处理器，跳转到指定的页面]
+                .accessDeniedHandler(new AccessDeniedHandler() {//自定义
+                    @Override
+                    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+                        //携带错误信息
+                        httpServletRequest.setAttribute("err",e.getMessage());
+                        //请求转发
+                        httpServletRequest.getRequestDispatcher("/WEB-INF/views/unauth.jsp").forward(httpServletRequest,httpServletResponse);
+                    }
+                });
+        //实验八：记住我功能-Cookie版
+        http.rememberMe();
     }
 }

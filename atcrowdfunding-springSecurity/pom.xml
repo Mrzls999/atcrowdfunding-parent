@@ -56,5 +56,23 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>4.2.10.RELEASE</version>
         </dependency>
+
+        <!--引入数据库认证-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId><!--对象关系映射-->
+            <version>4.3.20.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.12</version>
+        </dependency>
+        <!-- oracle11g【oracle6】的驱动 -->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

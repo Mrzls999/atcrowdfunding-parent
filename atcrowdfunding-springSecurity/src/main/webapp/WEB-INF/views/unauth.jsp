@@ -24,7 +24,6 @@
 		<div class="layui-body">
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;">
-
 				<h1>不要什么都看,防止走火入魔!!! ${requestScope.err}</h1>
 			</div>
 		</div>
