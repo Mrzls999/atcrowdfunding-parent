@@ -36,6 +36,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         String sql = "select * from t_admin where loginacct=?";
         Map<String, Object> map = jdbcTemplate.queryForMap(sql, userName);
-        return new User(map.get("loginacct").toString(),map.get("userpswd").toString(), AuthorityUtils.createAuthorityList("太极拳","七伤拳"));
+        //return new User(map.get("loginacct").toString(),map.get("userpswd").toString(), AuthorityUtils.createAuthorityList("太极拳","七伤拳","ROLE_学徒"));
+        return new User(map.get("loginacct").toString(),map.get("userpswd").toString(), AuthorityUtils.createAuthorityList("luohan","wudang","ROLE_学徒"));
     }
 }
