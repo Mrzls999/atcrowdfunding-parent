@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.servlet.ServletException;
@@ -28,16 +30,21 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     //认证
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //super.configure(auth); //如果认证失败 Bad credentials 密码错误
         //实验四：自定义认证用户信息 在服务器的内存中加载临时用户(最后用数据库代替) username loginacct
-//        auth.inMemoryAuthentication().withUser("zhangsan").password("123").roles("学徒","大师")
-//                .and()
-//                .withUser("lisi").password("123").authorities("太极拳","七伤拳");
-        auth.userDetailsService(userDetailsService);
+        //auth.inMemoryAuthentication().withUser("zhangsan").password("123").roles("学徒","大师")
+        //.and()
+        //.withUser("lisi").password("123").authorities("太极拳","七伤拳");
+
+        //auth.userDetailsService(userDetailsService);//未使用密码加密登录
+
+        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);//此处使用的MD5加密
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());//使用BCrypt加密
     }
 
     //授权
