@@ -58,8 +58,14 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
                         //携带错误信息
                         httpServletRequest.setAttribute("err",e.getMessage());
-                        //请求转发
-                        httpServletRequest.getRequestDispatcher("/WEB-INF/views/unauth.jsp").forward(httpServletRequest,httpServletResponse);
+                        if("XMLHttpRequest".equals(httpServletRequest.getHeader("X-Requested-With"))){//如果是异步的
+                            String msg="403";//表示访问受限
+                            System.out.println(msg);
+                            httpServletResponse.getWriter().write(msg);
+                        }else {//如果是同步的
+                            //请求转发
+                            httpServletRequest.getRequestDispatcher("/WEB-INF/views/unauth.jsp").forward(httpServletRequest,httpServletResponse);
+                        }
                     }
                 });
         http.rememberMe();

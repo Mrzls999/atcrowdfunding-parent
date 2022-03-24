@@ -63,7 +63,6 @@ public class MyUserDetailsService implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority(permission.getName()));
             }
         }
-        System.out.println(tAdmin);
         return new User(tAdmin.getLoginacct(), tAdmin.getUserpswd(),authorities);//bean中的loginacct和userpswd是string类型的，所以不用转了
     }
 }

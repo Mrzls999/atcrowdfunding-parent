@@ -146,10 +146,14 @@
         //$.ajax({}) $.get(url,param,function(res){}) $.post() $.getJSON()
         $.getJSON("${applicationScope.appPath}/role/loadData",
                     {"pageNum":pageNum,"pageSize":3,"keyWord":keyWord},
-                    function (res) {
-                        $("#checkAll").prop("checked",false);//查询数据后将复选框取消掉
-                        showRoles(res.list);
-                        showPages(res);
+                    function (res) {//因为res是json格式的，所以不能用===来判断
+                        if(res=="403"){
+                            layer.msg("没有权限访问",{time:2000,icon:5,shift:6});
+                        }else{
+                            $("#checkAll").prop("checked",false);//查询数据后将复选框取消掉
+                            showRoles(res.list);
+                            showPages(res);
+                        }
                     }
         )
     }
@@ -157,17 +161,19 @@
     //显示角色信息[处理完成后，并为其添加单击事件deleteRole]
     function showRoles(roles){
         let content="";
-        for(let i=0;i<roles.length;i++){
-            content+='<tr>';
-            content+='	<td>'+(i+1)+'</td>';
-            content+='	<td><input class="checkOne" type="checkbox" name="'+(roles[i].id)+'"></td>';
-            content+='	<td>'+(roles[i].name)+'</td>';
-            content+='	<td>';
-            content+='		<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-            content+='		<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-            content+='		<button type="button" class="btn btn-danger btn-xs" name="'+(roles[i].id)+'"><i class=" glyphicon glyphicon-remove"></i></button>';
-            content+='	</td>';
-            content+='</tr>';
+        if(roles){
+            for(let i=0;i<roles.length;i++){
+                content+='<tr>';
+                content+='	<td>'+(i+1)+'</td>';
+                content+='	<td><input class="checkOne" type="checkbox" name="'+(roles[i].id)+'"></td>';
+                content+='	<td>'+(roles[i].name)+'</td>';
+                content+='	<td>';
+                content+='		<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                content+='		<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+                content+='		<button type="button" class="btn btn-danger btn-xs" name="'+(roles[i].id)+'"><i class=" glyphicon glyphicon-remove"></i></button>';
+                content+='	</td>';
+                content+='</tr>';
+            }
         }
         $("tbody").html(content);
         deleteRole();
@@ -177,22 +183,24 @@
     //显示分页信息
     function showPages(pageInfo) {
         let content="";
-        if(pageInfo.isFirstPage&&pageInfo.pageSize!==0){
-            content+='<li class="disabled"><a href="#">上一页</a></li>';
-        }else {
-            content+='<li><a onclick="loadData('+(pageInfo.pageNum-1)+')">上一页</a></li>';
-        }
-        for(let i=0;i<pageInfo.navigatepageNums.length;i++){
-            if(pageInfo.pageNum===pageInfo.navigatepageNums[i]){
-                content+='<li class="active"><a onclick="loadData('+(pageInfo.navigatepageNums[i])+')">'+pageInfo.navigatepageNums[i]+' <span class="sr-only">(current)</span></a></li>';
+        if(pageInfo&&pageInfo.navigatepageNums){
+            if(pageInfo.isFirstPage&&pageInfo.pageSize!==0){
+                content+='<li class="disabled"><a href="#">上一页</a></li>';
             }else {
-                content+='<li><a onclick="loadData('+(pageInfo.navigatepageNums[i])+')">'+pageInfo.navigatepageNums[i]+' <span class="sr-only">(current)</span></a></li>';
+                content+='<li><a onclick="loadData('+(pageInfo.pageNum-1)+')">上一页</a></li>';
             }
-        }
-        if(pageInfo.isLastPage){
-            content+='<li class="disabled"><a href="#">下一页</a></li>';
-        }else {
-            content+='<li><a onclick="loadData('+(pageInfo.pageNum+1)+')">下一页</a></li>';
+            for(let i=0;i<pageInfo.navigatepageNums.length;i++){
+                if(pageInfo.pageNum===pageInfo.navigatepageNums[i]){
+                    content+='<li class="active"><a onclick="loadData('+(pageInfo.navigatepageNums[i])+')">'+pageInfo.navigatepageNums[i]+' <span class="sr-only">(current)</span></a></li>';
+                }else {
+                    content+='<li><a onclick="loadData('+(pageInfo.navigatepageNums[i])+')">'+pageInfo.navigatepageNums[i]+' <span class="sr-only">(current)</span></a></li>';
+                }
+            }
+            if(pageInfo.isLastPage){
+                content+='<li class="disabled"><a href="#">下一页</a></li>';
+            }else {
+                content+='<li><a onclick="loadData('+(pageInfo.pageNum+1)+')">下一页</a></li>';
+            }
         }
 
         $(".pagination").html(content);

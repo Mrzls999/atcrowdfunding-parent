@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -49,7 +50,9 @@
             </div>
             <button type="button" class="btn btn-warning" onclick="$('#adminQueryByKeyWord').submit()"><i class="glyphicon glyphicon-search"></i> 查询</button>
           </form>
-          <button type="button" class="btn btn-danger deleteSelectedAdmins" onclick="deleteAdmins()" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+          <sec:authorize access="hasRole('大师')">
+            <button type="button" class="btn btn-danger deleteSelectedAdmins" onclick="deleteAdmins()" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+          </sec:authorize>
           <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${applicationScope.appPath}/admin/toAdd'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
           <br>
           <hr style="clear:both;">
