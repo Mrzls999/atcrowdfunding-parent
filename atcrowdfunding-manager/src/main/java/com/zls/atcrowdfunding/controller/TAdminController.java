@@ -9,6 +9,7 @@ import com.zls.atcrowdfunding.service.TMenuService;
 import com.zls.atcrowdfunding.utils.Const;
 import com.zls.atcrowdfunding.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,21 +89,22 @@ public class TAdminController {
      * keyWord 查询条件
      * @return
      */
+    @PreAuthorize("hasRole('学徒') AND hasAuthority('putong:luohan')")
     @RequestMapping("/admin/index")
     public String index(@RequestParam(value = "pageNum",required = false,defaultValue = "1") Integer pageNum,
                         @RequestParam(value = "pageSize",required = false,defaultValue = "3") Integer pageSize,
                         @RequestParam(value = "keyWord",required = false,defaultValue = "") String keyWord,
                         Model model,
                         HttpSession session){
-        if (session == null||session.getAttribute("admin")==null) {//如果用户未登录则跳转到欢迎页面
-            return "redirect:/welcome.jsp";
-        }else {
+//        if (session == null||session.getAttribute("admin")==null) {//如果用户未登录则跳转到欢迎页面
+//            return "redirect:/welcome.jsp";
+//        }else {
             PageHelper.startPage(pageNum,pageSize);//开启分页 limit ?,?[pageSize-->每页显示多少条数据]
             List<TAdmin> tAdmins = tAdminService.listAdminByPage(keyWord);
             PageInfo<TAdmin> pageInfo = new PageInfo<>(tAdmins,5);//有多少个按钮页面[默认是8个]
             model.addAttribute("pageInfo", pageInfo);
             return "admin/index";
-        }
+//        }
 
     }
 

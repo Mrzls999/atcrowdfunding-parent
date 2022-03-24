@@ -55,7 +55,7 @@
 <%--        </div>--%>
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="remember-me"> 记住我
+                <input type="checkbox" name="remember-me" value="remember-me"> 记住我
             </label>
             <br>
             <label>

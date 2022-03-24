@@ -17,11 +17,12 @@
     </properties>
     <packaging>war</packaging>
 
+<!--    将版本都注释掉了，为了解决版本冲突，方法①：注释这个地方的版本，方法②：注释parent里关于此处的依赖-->
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.3.20.RELEASE</version>
+<!--            <version>4.3.20.RELEASE</version>-->
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
@@ -43,30 +44,30 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>4.2.10.RELEASE</version>
+<!--            <version>4.2.10.RELEASE</version>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>4.2.10.RELEASE</version>
+<!--            <version>4.2.10.RELEASE</version>-->
         </dependency>
         <!-- 标签库 -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
-            <version>4.2.10.RELEASE</version>
+<!--            <version>4.2.10.RELEASE</version>-->
         </dependency>
 
         <!--引入数据库认证-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId><!--对象关系映射-->
-            <version>4.3.20.RELEASE</version>
+<!--            <version>4.3.20.RELEASE</version>-->
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.12</version>
+<!--            <version>1.1.12</version>-->
         </dependency>
         <!-- oracle11g【oracle6】的驱动 -->
         <dependency>

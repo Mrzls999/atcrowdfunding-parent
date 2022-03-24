@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.zls.atcrowdfunding.bean.TRole;
 import com.zls.atcrowdfunding.service.TRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +35,7 @@ public class TRoleController {
 
 
     //加载角色信息
+    @PreAuthorize("hasRole('大师')")
     @ResponseBody
     @RequestMapping("/role/loadData")
     public PageInfo<TRole> loadData(@RequestParam(value = "pageNum",required = false,defaultValue = "1") Integer pageNum,

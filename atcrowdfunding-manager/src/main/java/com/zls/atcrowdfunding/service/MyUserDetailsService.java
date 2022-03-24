@@ -59,10 +59,11 @@ public class MyUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));//注意：在权限集合中，必须区分角色ROLE_XXXXX
         }
         for (TPermission permission : permissions) {
-            if(StringUtil.isNotEmpty(permission.toString())){
-                authorities.add(new SimpleGrantedAuthority(permission.toString()));
+            if(StringUtil.isNotEmpty(permission.getName())){
+                authorities.add(new SimpleGrantedAuthority(permission.getName()));
             }
         }
+        System.out.println(tAdmin);
         return new User(tAdmin.getLoginacct(), tAdmin.getUserpswd(),authorities);//bean中的loginacct和userpswd是string类型的，所以不用转了
     }
 }
