@@ -60,11 +60,16 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                         httpServletRequest.setAttribute("err",e.getMessage());
                         if("XMLHttpRequest".equals(httpServletRequest.getHeader("X-Requested-With"))){//如果是异步的
                             String msg="403";//表示访问受限
-                            System.out.println(msg);
                             httpServletResponse.getWriter().write(msg);
                         }else {//如果是同步的
                             //请求转发
-                            httpServletRequest.getRequestDispatcher("/WEB-INF/views/unauth.jsp").forward(httpServletRequest,httpServletResponse);
+                            if(e.getMessage().endsWith("'X-CSRF-TOKEN'.")||e.getMessage().startsWith("Could not verify the provided CSRF")){//如果是因为重启，或者重新发布导致的问题，则重定向到登录页面
+                                httpServletResponse.sendRedirect("welcome.jsp");//这句话和下边表示的含义一样
+                                //httpServletResponse.sendRedirect("http://localhost:8080"+httpServletRequest.getContextPath()+"/welcome.jsp");
+                                //8080后不用加/因为httpServletRequest.getContextPath()里有/
+                            }else {//如果是权限问题，则跳转到权限不足页面
+                                httpServletRequest.getRequestDispatcher("/WEB-INF/views/unauth.jsp").forward(httpServletRequest,httpServletResponse);
+                            }
                         }
                     }
                 });
